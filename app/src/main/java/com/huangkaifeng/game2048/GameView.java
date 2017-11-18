@@ -1,16 +1,23 @@
 package com.huangkaifeng.game2048;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.GridLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/11/17.
  */
 
 public class GameView extends GridLayout {
+    private Card[][] cardsMap = new Card[4][4];
+    private List<Point> emptyPoints = new ArrayList<Point>();
+
     public GameView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initGameView();
@@ -70,18 +77,44 @@ public class GameView extends GridLayout {
 
         int cardWidth = (Math.min(w,h)-10)/4;
         addCard(cardWidth,cardWidth);
+        startGame();
     }
     private void addCard(int cardWidh,int cardHeight){
         Card c;
         for(int y = 0; y < 4; y++){
             for (int x = 0;x < 4; x++){
                 c = new Card(getContext());
-                c.setNum(2);
+                c.setNum(0);
                 addView(c,cardWidh,cardHeight);
 
                 cardsMap[x][y] = c;
             }
         }
+    }
+    private void startGame(){
+        for(int y = 0; y < 4; y++) {
+            for (int x = 0; x < 4; x++) {
+                cardsMap[x][y].setNum(0);
+            }
+        }
+        //添加两个随机数
+        addRandomNum();
+        addRandomNum();
+    }
+
+    private void addRandomNum(){
+        emptyPoints.clear();
+
+        for(int y = 0; y < 4; y++){
+            for(int x = 0;x < 4; x++){
+                if(cardsMap[x][y].getNum()<=0){
+                    emptyPoints.add(new Point(x,y));
+                }
+            }
+        }
+
+        Point p = emptyPoints.remove((int)(Math.random()*emptyPoints.size()));
+        cardsMap[p.x][p.y].setNum(Math.random()>0.1?2:4);
     }
 
     private void swipeLeft(){
@@ -92,5 +125,5 @@ public class GameView extends GridLayout {
     }
     private void swipeDown(){
     }
-    private Card[][] cardsMap = new Card[4][4];
+
 }
