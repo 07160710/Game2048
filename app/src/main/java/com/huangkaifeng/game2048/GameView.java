@@ -92,18 +92,13 @@ public class GameView extends GridLayout {
         }
     }
     private void startGame(){
+        GameActivity.getMainActivity().clearScore();
         for(int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
                 cardsMap[x][y].setNum(0);
             }
         }
         //添加两个随机数
-        addRandomNum();
-        addRandomNum();
-        addRandomNum();
-        addRandomNum();
-        addRandomNum();
-        addRandomNum();
         addRandomNum();
         addRandomNum();
     }
@@ -124,6 +119,7 @@ public class GameView extends GridLayout {
     }
 
     private void swipeLeft(){
+        boolean marge = false;
         for(int y = 0; y < 4; y++) {
             for (int x = 0; x < 4; x++) {
 
@@ -133,18 +129,24 @@ public class GameView extends GridLayout {
                             cardsMap[x][y].setNum(cardsMap[x1][y].getNum());
                             cardsMap[x1][y].setNum(0);
                             x--;
-                            break;
+                            marge = true;
                         }else if(cardsMap[x][y].equals(cardsMap[x1][y])){
                             cardsMap[x][y].setNum(cardsMap[x][y].getNum()*2);
                             cardsMap[x1][y].setNum(0);
-                            break;
+                            GameActivity.getMainActivity().addScore(cardsMap[x][y].getNum());
+                            marge = true;
                         }
+                        break;
                     }
                 }
             }
         }
+        if (marge){
+            addRandomNum();
+        }
     }
     private void swipeRight(){
+        boolean marge = false;
         for(int y = 0; y < 4; y++) {
             for (int x = 3; x >= 0; x--) {
 
@@ -154,18 +156,24 @@ public class GameView extends GridLayout {
                             cardsMap[x][y].setNum(cardsMap[x1][y].getNum());
                             cardsMap[x1][y].setNum(0);
                             x++;
-                            break;
+                            marge = true;
                         }else if(cardsMap[x][y].equals(cardsMap[x1][y])){
                             cardsMap[x][y].setNum(cardsMap[x][y].getNum()*2);
                             cardsMap[x1][y].setNum(0);
-                            break;
+                            GameActivity.getMainActivity().addScore(cardsMap[x][y].getNum());
+                            marge = true;
                         }
+                        break;
                     }
                 }
             }
         }
+        if (marge){
+            addRandomNum();
+        }
     }
     private void swipeUp(){
+        boolean marge = false;
         for(int x = 0; x < 4; x++) {
             for (int y = 0; y < 4; y++) {
 
@@ -175,18 +183,24 @@ public class GameView extends GridLayout {
                             cardsMap[x][y].setNum(cardsMap[x][y1].getNum());
                             cardsMap[x][y1].setNum(0);
                             y--;
-                            break;
+                            marge = true;
                         }else if(cardsMap[x][y].equals(cardsMap[x][y1])){
                             cardsMap[x][y].setNum(cardsMap[x][y].getNum()*2);
                             cardsMap[x][y1].setNum(0);
-                            break;
+                            GameActivity.getMainActivity().addScore(cardsMap[x][y].getNum());
+                            marge = true;
                         }
+                        break;
                     }
                 }
             }
         }
+        if (marge){
+            addRandomNum();
+        }
     }
     private void swipeDown(){
+        boolean marge = false;
         for(int x = 0; x < 4; x++) {
             for (int y = 3; y >= 0; y--) {
 
@@ -196,15 +210,20 @@ public class GameView extends GridLayout {
                             cardsMap[x][y].setNum(cardsMap[x][y1].getNum());
                             cardsMap[x][y1].setNum(0);
                             y++;
-                            break;
+                            marge = true;
                         }else if(cardsMap[x][y].equals(cardsMap[x][y1])){
                             cardsMap[x][y].setNum(cardsMap[x][y].getNum()*2);
                             cardsMap[x][y1].setNum(0);
-                            break;
+                            GameActivity.getMainActivity().addScore(cardsMap[x][y].getNum());
+                            marge = true;
                         }
+                        break;
                     }
                 }
             }
+        }
+        if (marge){
+            addRandomNum();
         }
     }
 
